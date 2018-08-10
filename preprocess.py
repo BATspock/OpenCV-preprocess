@@ -94,3 +94,16 @@ class preprocess:
         table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8") 
         # apply gamma correction using the lookup table
         return cv2.LUT(self.im, table)
+    
+    def kmeans(self, no_of_clusters):
+        """
+        k means to extract colors 
+        returns ==> image after kmeans and values of the clusters created
+        """
+        Z = img.reshape((-1, 3))
+        Z = np.float32(Z)
+        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+        ret, label, center = cv2.kmeans(Z, no_of_clusters,None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+        center = np.uint8(center)
+        res = center[label.flatten()]
+        return(res.reshape((img.shape)), center)
