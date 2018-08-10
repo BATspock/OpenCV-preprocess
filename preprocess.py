@@ -100,10 +100,10 @@ class preprocess:
         k means to extract colors 
         returns ==> image after kmeans and values of the clusters created
         """
-        Z = img.reshape((-1, 3))
+        Z = self.im.reshape((-1, 3))
         Z = np.float32(Z)
         criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         ret, label, center = cv2.kmeans(Z, no_of_clusters,None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
         center = np.uint8(center)
         res = center[label.flatten()]
-        return(res.reshape((img.shape)), center)
+        return(res.reshape((self.im.shape)), center)
